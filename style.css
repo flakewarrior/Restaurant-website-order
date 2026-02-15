@@ -1,45 +1,84 @@
 body {
   font-family: Arial, sans-serif;
-  background: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092') no-repeat center center fixed;
+  background: url('background.jpg') no-repeat center center fixed;
   background-size: cover;
+  color: #333;
   margin: 0;
   padding: 0;
-  color: #333;
 }
 
-header {
-  background: rgba(0,0,0,0.7);
-  color: white;
-  padding: 15px;
+h1 {
   text-align: center;
+  font-size: 2.5em; /* larger font size */
+  color: white;
+  margin-top: 20px;
 }
 
 .menu {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-around;
-  margin: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  padding: 20px;
 }
 
-.item {
-  background: rgba(255,255,255,0.9);
+.menu-item {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
   padding: 15px;
-  border-radius: 8px;
-  width: 220px;
-  margin: 10px;
-  text-align: center;
+  font-size: 1.1em; /* increased font size */
+}
+
+.menu-item h2 {
+  margin-top: 0;
+}
+
+.menu-item ul {
+  margin: 10px 0;
+  padding-left: 20px;
+  font-size: 0.95em;
+  color: #555;
 }
 
 button {
-  background: #d35400;
+  background: orange;
   color: white;
   border: none;
   padding: 10px;
-  margin-top: 10px;
-  cursor: pointer;
   border-radius: 5px;
+  cursor: pointer;
+  font-size: 1em;
 }
 
-button:hover {
-  background: #e67e22;
+#cart {
+  background: white;
+  padding: 20px;
+  border-top: 3px solid orange;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-height: 50%;
+  overflow-y: auto;
 }
+
+#cart h2 {
+  margin-top: 0;
+}
+
+.order-options {
+  margin-top: 15px;
+}
+
+.order-options label {
+  margin-right: 15px;
+}
+
+.place-order {
+  margin-top: 20px;
+  background: green;
+  color: white;
+  padding: 12px;
+  border-radius: 5px;
+  font-size: 1.2em;
+}
+
+
