@@ -1,53 +1,58 @@
 let cart = [];
+let total = 0;
 
 function addToCart(item, price) {
-  cart.push({ item, price });
-  alert(item + " added to cart!");
+  cart.push({item, price});
+  total += price;
+  renderCart();
 }
 
-function viewCart() {
-  let summary = cart.map(c => `${c.item} - Tsh ${c.price}`).join("\n");
-  alert("Your Cart:\n" + summary);
+function renderCart() {
+  const cartList = document.getElementById('cart-items');
+  cartList.innerHTML = '';
+  cart.forEach(c => {
+    const li = document.createElement('li');
+    li.textContent = `${c.item} - Tsh ${c.price}`;
+    cartList.appendChild(li);
+  });
+  document.getElementById('cart-total').textContent = total;
 }
 
-function toggleService() {
-  const service = document.querySelector('input[name="service"]:checked').value;
-  document.getElementById("dineInFields").style.display = service === "Dine In" ? "block" : "none";
-  document.getElementById("deliveryFields").style.display = service === "Delivery" ? "block" : "none";
-}
+function placeOrder() {
+  const orderType = document.querySelector('input[name="orderType"]:checked')?.value;
+  const payment = document.querySelector('input[name="payment"]:checked')?.value;
+  const tableNumber = document.getElementById('tableNumber').value;
+  const instructions = document.getElementById('instructions').value;
 
-function togglePayment() {
-  const payment = document.querySelector('input[name="payment"]:checked').value;
-  document.getElementById("mobileFields").style.display = payment === "Mobile Pay" ? "block" : "none";
-  document.getElementById("cardFields").style.display = payment === "Card" ? "block" : "none";
-}
+  if (!orderType || !payment) {
+    alert("Please select order type and payment method.");
+    return;
+  }
 
-document.getElementById("orderForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const service = document.querySelector('input[name="service"]:checked').value;
-  const payment = document.querySelector('input[name="payment"]:checked').value;
-
-  const formData = new FormData(e.target);
-  const extra = Object.fromEntries(formData.entries());
-
-  const order = {
-    cart,
-    service,
+  const orderData = {
+    items: cart,
+    total,
+    orderType,
     payment,
-    extra
+    tableNumber,
+    instructions
   };
 
-  try {
-    const res = await fetch("https://unseparating-leandro-gravest.ngrok-free.dev/webhook-test/webhook-test/ffd01a1e-14ca-466c-b8cc-54eee5deb5aa", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(order)
-    });
-    const data = await res.json();
-    document.getElementById("response").textContent = "Order placed successfully!";
+  // Send to n8n workflow via ngrok webhook
+  fetch("https://unseparating-leandro-gravest.ngrok-free.dev/rest/oauth2-credential/callback", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(orderData)
+  })
+  .then(res => res.json())
+  .then(data => {
+    alert("Order placed successfully!");
     cart = [];
-  } catch (err) {
-    document.getElementById("response").textContent = "Error placing order.";
-  }
-});
+    total = 0;
+    renderCart();
+  })
+  .catch(err => {
+    console.error(err);
+    alert("Error placing order.");
+  });
+}
