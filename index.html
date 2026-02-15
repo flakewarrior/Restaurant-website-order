@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tasty Yummy Restaurant</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>Tasty Yummy Restaurant</h1>
+    <nav>
+      <button onclick="viewCart()">🛒 View Cart</button>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Menu</h2>
+    <div class="menu">
+      <!-- 10 dishes -->
+      <div class="item"><h3>Chicken Curry</h3><p>Spicy curry</p><button onclick="addToCart('Chicken Curry', 12000)">Add - Tsh 12,000</button></div>
+      <div class="item"><h3>Veggie Pizza</h3><p>Fresh veggies</p><button onclick="addToCart('Veggie Pizza', 15000)">Add - Tsh 15,000</button></div>
+      <div class="item"><h3>Beef Burger</h3><p>Juicy beef</p><button onclick="addToCart('Beef Burger', 10000)">Add - Tsh 10,000</button></div>
+      <div class="item"><h3>Truffle Fries</h3><p>Crispy potatoes</p><button onclick="addToCart('Truffle Fries', 5000)">Add - Tsh 5,000</button></div>
+      <div class="item"><h3>Garlic Crostini</h3><p>Toasted bread</p><button onclick="addToCart('Garlic Crostini', 4500)">Add - Tsh 4,500</button></div>
+      <div class="item"><h3>Velvet Cheesecake</h3><p>Classic dessert</p><button onclick="addToCart('Velvet Cheesecake', 8000)">Add - Tsh 8,000</button></div>
+      <div class="item"><h3>Chocolate Brownie</h3><p>With ice cream</p><button onclick="addToCart('Chocolate Brownie', 7000)">Add - Tsh 7,000</button></div>
+      <div class="item"><h3>Grilled Fish</h3><p>Served with lemon</p><button onclick="addToCart('Grilled Fish', 14000)">Add - Tsh 14,000</button></div>
+      <div class="item"><h3>Chicken Shawarma</h3><p>Middle Eastern wrap</p><button onclick="addToCart('Chicken Shawarma', 9000)">Add - Tsh 9,000</button></div>
+      <div class="item"><h3>Fresh Juice</h3><p>Seasonal fruits</p><button onclick="addToCart('Fresh Juice', 4000)">Add - Tsh 4,000</button></div>
+    </div>
+
+    <h2>Order Options</h2>
+    <form id="orderForm">
+      <h3>Service Type</h3>
+      <label><input type="radio" name="service" value="Dine In" onclick="toggleService()"> Dine In</label>
+      <label><input type="radio" name="service" value="Delivery" onclick="toggleService()"> Delivery</label>
+
+      <div id="dineInFields" style="display:none;">
+        <label>Table Number: <input type="text" name="table"></label>
+        <label>Notes: <textarea name="notes"></textarea></label>
+      </div>
+
+      <div id="deliveryFields" style="display:none;">
+        <label>Street: <input type="text" name="street"></label>
+        <label>Building: <input type="text" name="building"></label>
+      </div>
+
+      <h3>Payment Method</h3>
+      <label><input type="radio" name="payment" value="Cash" onclick="togglePayment()"> Cash</label>
+      <label><input type="radio" name="payment" value="Mobile Pay" onclick="togglePayment()"> Mobile Pay</label>
+      <label><input type="radio" name="payment" value="Card" onclick="togglePayment()"> Card</label>
+
+      <div id="mobileFields" style="display:none;">
+        <label>Mobile Number: <input type="text" name="mobileNumber" placeholder="0789849990"></label>
+      </div>
+
+      <div id="cardFields" style="display:none;">
+        <label>Card Number: <input type="text" name="cardNumber"></label>
+        <label>Expiry Date: <input type="text" name="expiry"></label>
+        <label>CVV: <input type="text" name="cvv"></label>
+      </div>
+
+      <button type="submit">Place Order</button>
+    </form>
+
+    <p id="response"></p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
