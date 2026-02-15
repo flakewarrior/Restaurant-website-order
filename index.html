@@ -3,69 +3,192 @@
 <head>
   <meta charset="UTF-8">
   <title>Tasty Yummy Restaurant</title>
-  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('background.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5em;
+      color: white;
+      margin-top: 20px;
+    }
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .menu-item {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 10px;
+      padding: 15px;
+      font-size: 1.1em; /* increased font size */
+    }
+    .menu-item h2 {
+      margin-top: 0;
+    }
+    .menu-item ul {
+      margin: 10px 0;
+      padding-left: 20px;
+      font-size: 0.95em;
+      color: #555;
+    }
+    button {
+      background: orange;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+    }
+    #cart {
+      background: white;
+      padding: 20px;
+      border-top: 3px solid orange;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      max-height: 50%;
+      overflow-y: auto;
+    }
+    #cart h2 {
+      margin-top: 0;
+    }
+    .order-options {
+      margin-top: 15px;
+    }
+    .order-options label {
+      margin-right: 15px;
+    }
+    .place-order {
+      margin-top: 20px;
+      background: green;
+    }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>Tasty Yummy Restaurant</h1>
-    <nav>
-      <button onclick="viewCart()">🛒 View Cart</button>
-    </nav>
-  </header>
+  <h1>Tasty Yummy Restaurant</h1>
 
-  <main>
-    <h2>Menu</h2>
-    <div class="menu">
-      <!-- 10 dishes -->
-      <div class="item"><h3>Chicken Curry</h3><p>Spicy curry</p><button onclick="addToCart('Chicken Curry', 12000)">Add - Tsh 12,000</button></div>
-      <div class="item"><h3>Veggie Pizza</h3><p>Fresh veggies</p><button onclick="addToCart('Veggie Pizza', 15000)">Add - Tsh 15,000</button></div>
-      <div class="item"><h3>Beef Burger</h3><p>Juicy beef</p><button onclick="addToCart('Beef Burger', 10000)">Add - Tsh 10,000</button></div>
-      <div class="item"><h3>Truffle Fries</h3><p>Crispy potatoes</p><button onclick="addToCart('Truffle Fries', 5000)">Add - Tsh 5,000</button></div>
-      <div class="item"><h3>Garlic Crostini</h3><p>Toasted bread</p><button onclick="addToCart('Garlic Crostini', 4500)">Add - Tsh 4,500</button></div>
-      <div class="item"><h3>Velvet Cheesecake</h3><p>Classic dessert</p><button onclick="addToCart('Velvet Cheesecake', 8000)">Add - Tsh 8,000</button></div>
-      <div class="item"><h3>Chocolate Brownie</h3><p>With ice cream</p><button onclick="addToCart('Chocolate Brownie', 7000)">Add - Tsh 7,000</button></div>
-      <div class="item"><h3>Grilled Fish</h3><p>Served with lemon</p><button onclick="addToCart('Grilled Fish', 14000)">Add - Tsh 14,000</button></div>
-      <div class="item"><h3>Chicken Shawarma</h3><p>Middle Eastern wrap</p><button onclick="addToCart('Chicken Shawarma', 9000)">Add - Tsh 9,000</button></div>
-      <div class="item"><h3>Fresh Juice</h3><p>Seasonal fruits</p><button onclick="addToCart('Fresh Juice', 4000)">Add - Tsh 4,000</button></div>
+  <div class="menu">
+    <!-- Example item -->
+    <div class="menu-item">
+      <h2>Beef Burger</h2>
+      <p>Juicy beef patty with fresh toppings</p>
+      <ul>
+        <li>Beef patty</li>
+        <li>Mayonnaise</li>
+        <li>Avocado</li>
+        <li>Tomato</li>
+        <li>Lettuce</li>
+        <li>Sesame bun</li>
+      </ul>
+      <button onclick="addToCart('Beef Burger', 10000)">Add - Tsh 10,000</button>
     </div>
 
-    <h2>Order Options</h2>
-    <form id="orderForm">
-      <h3>Service Type</h3>
-      <label><input type="radio" name="service" value="Dine In" onclick="toggleService()"> Dine In</label>
-      <label><input type="radio" name="service" value="Delivery" onclick="toggleService()"> Delivery</label>
+    <!-- Repeat for other items (Chicken Curry, Veggie Pizza, etc.) -->
+    <!-- Use the ingredient lists I gave you earlier -->
+  </div>
 
-      <div id="dineInFields" style="display:none;">
-        <label>Table Number: <input type="text" name="table"></label>
-        <label>Notes: <textarea name="notes"></textarea></label>
-      </div>
+  <div id="cart">
+    <h2>Your Cart</h2>
+    <ul id="cart-items"></ul>
+    <p><strong>Total:</strong> Tsh <span id="cart-total">0</span></p>
 
-      <div id="deliveryFields" style="display:none;">
-        <label>Street: <input type="text" name="street"></label>
-        <label>Building: <input type="text" name="building"></label>
-      </div>
+    <div class="order-options">
+      <p><strong>Order Type:</strong></p>
+      <label><input type="radio" name="orderType" value="Dine In"> Dine In</label>
+      <label><input type="radio" name="orderType" value="Takeaway"> Takeaway</label>
+      <label><input type="radio" name="orderType" value="Delivery"> Delivery</label>
+    </div>
 
-      <h3>Payment Method</h3>
-      <label><input type="radio" name="payment" value="Cash" onclick="togglePayment()"> Cash</label>
-      <label><input type="radio" name="payment" value="Mobile Pay" onclick="togglePayment()"> Mobile Pay</label>
-      <label><input type="radio" name="payment" value="Card" onclick="togglePayment()"> Card</label>
+    <div class="order-options">
+      <label>Table Number: <input type="text" id="tableNumber"></label>
+    </div>
 
-      <div id="mobileFields" style="display:none;">
-        <label>Mobile Number: <input type="text" name="mobileNumber" placeholder="0789849990"></label>
-      </div>
+    <div class="order-options">
+      <label>Special Instructions: <input type="text" id="instructions"></label>
+    </div>
 
-      <div id="cardFields" style="display:none;">
-        <label>Card Number: <input type="text" name="cardNumber"></label>
-        <label>Expiry Date: <input type="text" name="expiry"></label>
-        <label>CVV: <input type="text" name="cvv"></label>
-      </div>
+    <div class="order-options">
+      <p><strong>Payment Method:</strong></p>
+      <label><input type="radio" name="payment" value="Card"> Card</label>
+      <label><input type="radio" name="payment" value="Cash"> Cash</label>
+    </div>
 
-      <button type="submit">Place Order</button>
-    </form>
+    <button class="place-order" onclick="placeOrder()">Place Order</button>
+  </div>
 
-    <p id="response"></p>
-  </main>
+  <script>
+    let cart = [];
+    let total = 0;
 
-  <script src="script.js"></script>
+    function addToCart(item, price) {
+      cart.push({item, price});
+      total += price;
+      renderCart();
+    }
+
+    function renderCart() {
+      const cartList = document.getElementById('cart-items');
+      cartList.innerHTML = '';
+      cart.forEach(c => {
+        const li = document.createElement('li');
+        li.textContent = `${c.item} - Tsh ${c.price}`;
+        cartList.appendChild(li);
+      });
+      document.getElementById('cart-total').textContent = total;
+    }
+
+    function placeOrder() {
+      const orderType = document.querySelector('input[name="orderType"]:checked')?.value;
+      const payment = document.querySelector('input[name="payment"]:checked')?.value;
+      const tableNumber = document.getElementById('tableNumber').value;
+      const instructions = document.getElementById('instructions').value;
+
+      if (!orderType || !payment) {
+        alert("Please select order type and payment method.");
+        return;
+      }
+
+      const orderData = {
+        items: cart,
+        total,
+        orderType,
+        payment,
+        tableNumber,
+        instructions
+      };
+
+      // Send to n8n workflow via ngrok webhook
+      fetch("https://unseparating-leandro-gravest.ngrok-free.dev/rest/oauth2-credential/callback", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(orderData)
+      })
+      .then(res => res.json())
+      .then(data => {
+        alert("Order placed successfully!");
+        cart = [];
+        total = 0;
+        renderCart();
+      })
+      .catch(err => {
+        console.error(err);
+        alert("Error placing order.");
+      });
+    }
+  </script>
 </body>
 </html>
+
+
+
+
+ 
